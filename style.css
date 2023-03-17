@@ -20,11 +20,16 @@ body {
 #buttons {
     display: flex;
     flex-direction: column;
+    background-color: green;
+    border: 3px black solid;
 }
 
 .button {
     background-color: yellow;
     border: 1px black solid;
+    width: 32px;
+    height: 19px;
+    text-align: center;
 }
 
 .button-row {
