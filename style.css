@@ -1,0 +1,33 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background-color: cyan;
+    display: flex;
+    flex-direction: column;
+
+}
+
+#display {
+    height: 50px;
+    background-color: white;
+    border: 3px black solid;
+}
+
+#buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.button {
+    background-color: yellow;
+    border: 1px black solid;
+}
+
+.button-row {
+    display: flex;
+    gap: 10px;
+}
