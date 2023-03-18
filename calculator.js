@@ -94,3 +94,8 @@ function pressBack() {
         }
     }
 }
+
+function pressClear() {
+    [operand1, operand2, operator] = ["", "", ""];
+    display.textContent = operand1;
+}
