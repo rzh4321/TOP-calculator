@@ -49,18 +49,34 @@ let operand2 = "";
 let operator = "";
 
 function pressNumber(num) {
-    if (operand1 != "" || operator == "") {
-        if (num == '-' && operand1 != "") return
-        operand1.concat(num);
-        display.textContent = operand1;
-    }
-    else {
-        if (num == '-' && operand2 != "") return
-        operand2.concat(num);
-        display.textContent = operand2;
+    if (operand1 != "ERROR") {
+        if (operand1 != "" || operator == "") {
+            if (num == '-' && operand1 != "") return
+            operand1.concat(num);
+            display.textContent = operand1;
+        }
+        else {
+            if (num == '-' && operand2 != "") return
+            operand2.concat(num);
+            display.textContent = operand2;
+        }
     }
 }
 
-function pressSymbol(num) {
-
+function pressSymbol(symbol) {
+    if (operand1 != "ERROR") {
+        if (operand1 != "" && operand2 != "" && operator != "") {
+            operand1 = operate(operator, operand1, operand2);
+            display.textContent = operand1;
+            operator = symbol;
+        }
+        else if (operand1 == "" || operator != "") {
+            operand1 = "ERROR";
+            display.textContent = operand1;
+        }
+        else {
+            operator = symbol;
+            display.textContent = operator;
+        }
+    }
 }
