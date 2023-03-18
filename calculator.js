@@ -26,7 +26,9 @@ function operate(operator, a, b) {
 }
 
 function createRows() {
-    const arr = [7,8,9,'<=','CLR',4,5,6,'X','/',1,2,3,'+','-',0,'.','+/-',`P`,'='];
+    const numbers = new Set(["1","2","3","4","5","6","7","8","9","0","+/-","."]);
+    const symbols = new Set(["X","/","+","-","="]);
+    const arr = ["7","8","9",'<=','CLR',"4","5","6",'X','/',"1","2","3",'+','-',"0",'.','+/-',`P`,'='];
     let ind = 0;
     for (let r = 0; r < 4; ++r) {
         let row = document.createElement('div');
@@ -34,7 +36,11 @@ function createRows() {
         for (let col = 0; col < 5; ++col) {
             let button = document.createElement('div');
             button.classList.add('button');
-            button.textContent = arr[ind];
+            let content = arr[ind];
+            button.textContent = content;
+            if (numbers.has(content)) button.addEventListener('click', () => {pressNumber(content)});
+            else if (symbols.has(content)) button.addEventListener('click', () => {pressSymbol(content)});
+            else if (content == 'CLR') button.addEventListener('click', pressClear);
             ++ind;
             row.append(button);
         }
@@ -42,16 +48,17 @@ function createRows() {
     }
 
 }
-
-createRows();
 let operand1 = "";
 let operand2 = "";
 let operator = "";
+createRows();
 
 function pressNumber(num) {
     if (operand1 != "ERROR") {
+        if (num == '+/-') num = '-';
         if (operand1 != "" || operator == "") {
             if (num == '-' && operand1 != "") return
+            if (num == '0' && operand1.slice(0) == '0') return
             operand1.concat(num);
             display.textContent = operand1;
         }
@@ -63,19 +70,20 @@ function pressNumber(num) {
     }
 }
 
-function pressSymbol(symbol="") {
+function pressSymbol(symbol) {
     if (operand1 != "ERROR") {
         if (operand1 != "" && operand2 != "" && operator != "") {
-            operand1 = operate(operator, operand1, operand2);
+            operand1 = operate(operator, +operand1, +operand2);
             display.textContent = operand1;
-            operator = symbol;
+            if (symbol != "=") operator = symbol;
+            else operator = "";
             operand2 = "";
         }
         else if (operand1 == "" || operator != "") {
             operand1 = "ERROR";
             display.textContent = operand1;
         }
-        else if (symbol != "") {        // symbol is not equals
+        else if (symbol != "=") {        // symbol is not equals
             operator = symbol;
             display.textContent = operator;
         }
