@@ -44,3 +44,23 @@ function createRows() {
 }
 
 createRows();
+let operand1 = "";
+let operand2 = "";
+let operator = "";
+
+function pressNumber(num) {
+    if (operand1 != "" || operator == "") {
+        if (num == '-' && operand1 != "") return
+        operand1.concat(num);
+        display.textContent = operand1;
+    }
+    else {
+        if (num == '-' && operand2 != "") return
+        operand2.concat(num);
+        display.textContent = operand2;
+    }
+}
+
+function pressSymbol(num) {
+
+}
