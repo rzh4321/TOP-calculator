@@ -63,18 +63,19 @@ function pressNumber(num) {
     }
 }
 
-function pressSymbol(symbol) {
+function pressSymbol(symbol="") {
     if (operand1 != "ERROR") {
         if (operand1 != "" && operand2 != "" && operator != "") {
             operand1 = operate(operator, operand1, operand2);
             display.textContent = operand1;
             operator = symbol;
+            operand2 = "";
         }
         else if (operand1 == "" || operator != "") {
             operand1 = "ERROR";
             display.textContent = operand1;
         }
-        else {
+        else if (symbol != "") {        // symbol is not equals
             operator = symbol;
             display.textContent = operator;
         }
