@@ -18,10 +18,15 @@ function divide(a, b) {
 }
 
 function operate(operator, a, b) {
-    if (operator == '+') return add(a, b);
-    if (operator == '-') return subtract(a, b);
-    if (operator == '*') return multiply(a, b);
-    if (operator == '/') return divide(a, b);
+    let res;
+    if (operator == '+') res = add(a, b);
+    if (operator == '-') res =  subtract(a, b);
+    if (operator == 'X') res =  multiply(a, b);
+    if (operator == '/') res = divide(a, b);
+    if (String(res).length >= 17) {
+        res = Math.round(res*100000000000000)/100000000000000;
+    }
+    return res;
 
 }
 
@@ -41,6 +46,7 @@ function createRows() {
             if (numbers.has(content)) button.addEventListener('click', () => {pressNumber(content)});
             else if (symbols.has(content)) button.addEventListener('click', () => {pressSymbol(content)});
             else if (content == 'CLR') button.addEventListener('click', pressClear);
+            else if (content == '<=') button.addEventListener('click', pressBack);
             ++ind;
             row.append(button);
         }
@@ -56,15 +62,18 @@ createRows();
 function pressNumber(num) {
     if (operand1 != "ERROR") {
         if (num == '+/-') num = '-';
-        if (operand1 != "" || operator == "") {
-            if (num == '-' && operand1 != "") return
-            if (num == '0' && operand1.slice(0) == '0') return
-            operand1.concat(num);
+        if (operator == "") {
+            // if operand1 is a number, previous operation was equals so start fresh
+            if (typeof operand1 == 'number') operand1 = "";
+            if (num == '-' && operand1 != "") return;
+            if (num == '0' && operand1.slice(0) == '0') return;
+            operand1 = operand1.concat(num);
             display.textContent = operand1;
         }
-        else {
+        else { // if operator is set, you're either chaining or simply setting operand2
             if (num == '-' && operand2 != "") return
-            operand2.concat(num);
+            if (num == '0' && operand2.slice(0) == '0') return
+            operand2 = operand2.concat(num);
             display.textContent = operand2;
         }
     }
@@ -73,7 +82,7 @@ function pressNumber(num) {
 function pressSymbol(symbol) {
     if (operand1 != "ERROR") {
         if (operand1 != "" && operand2 != "" && operator != "") {
-            operand1 = operate(operator, +operand1, +operand2);
+            operand1 = operate(operator, +operand1, +operand2); // operand1 is now a number, not a string
             display.textContent = operand1;
             if (symbol != "=") operator = symbol;
             else operator = "";
