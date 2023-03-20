@@ -65,6 +65,7 @@ function pressNumber(num) {
         if (operator == "") {
             // if operand1 is a number, previous operation was equals so start fresh
             if (typeof operand1 == 'number') operand1 = "";
+            if (num == '.' && operand1.includes('.')) return
             if (num == '-' && operand1 != "") return;
             if (num == '0' && operand1.slice(0) == '0') return;
             operand1 = operand1.concat(num);
@@ -72,6 +73,7 @@ function pressNumber(num) {
         }
         else { // if operator is set, you're either chaining or simply setting operand2
             if (num == '-' && operand2 != "") return
+            if (num == '.' && operand2.includes('.')) return
             if (num == '0' && operand2.slice(0) == '0') return
             operand2 = operand2.concat(num);
             display.textContent = operand2;
