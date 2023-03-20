@@ -103,11 +103,11 @@ function pressSymbol(symbol) {
 
 function pressBack() {
     if (operand1 != "ERROR") { 
-        if (operand2 != "") {
+        if (typeof operand2 == 'string' && operand2 != "") {
             operand2 = operand2.slice(0, operand2.length-1);
             display.textContent = operand2;
         }
-        else if (operand1 != "" && operator == "") {
+        else if (typeof operand1 == 'string' && operand1 != "" && operator == "") {
             operand1 = operand1.slice(0, operand1.length-1);
             display.textContent = operand1;
         }
